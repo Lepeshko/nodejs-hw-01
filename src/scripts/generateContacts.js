@@ -1,18 +1,11 @@
-
+import { writeContacts } from '../utils/writeContacts.js';
 import { createFakeContact } from '../utils/createFakeContact.js';
-import { PATH_DB } from '../constants/contacts.js';
-import * as fs from 'node:fs/promises';
-import updateContacts from './updateContacts.js';
+import { readContacts } from '../utils/readContacts.js';
 
 const generateContacts = async (number) => {
-
-  const data = await fs.readFile(PATH_DB, 'utf-8');
-  const contactList = JSON.parse(data);
-    const NewContactList = Array(number).fill(0).map(createFakeContact);
-      contactList.push(...NewContactList);
-  await updateContacts(contactList);
+  const contactsList = await readContacts();
+  const newContactsList = Array(number).fill(0).map(createFakeContact);
+  contactsList.push(...newContactsList);
+  await writeContacts(contactsList);
 };
-
-generateContacts(5);
-
-
+generateContacts(3);
